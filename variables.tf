@@ -9,3 +9,8 @@ variable "zone_id" {
 variable "cert_arn" {
   type = string
 }
+
+variable "additional_policies" {
+  type    = list(string)
+  default = []
+}

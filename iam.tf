@@ -38,29 +38,10 @@ data "aws_iam_policy_document" "s3-rw" {
       "arn:aws:s3:::${local.hostname}"
     ]
   }
+}
 
-  statement {
-    sid    = "dwhS3ObjectRW"
-    effect = "Allow"
-    actions = [
-      "s3:GetObject",
-      "s3:PutObject",
-      "s3:ListObject",
-      "s3:DeleteObject",
-    ]
-    resources = [
-      "arn:aws:s3:::dynamicbannercodes/*"
-    ]
-  }
-
-  statement {
-    sid    = "dwhS3BucketList"
-    effect = "Allow"
-    actions = [
-      "s3:ListBucket",
-    ]
-    resources = [
-      "arn:aws:s3:::dynamicbannercodes"
-    ]
-  }
+resource "aws_iam_user_policy_attachment" "additional" {
+  count      = length(var.additional_policies)
+  user       = aws_iam_user.this.name
+  policy_arn = element(var.additional_policies, count.index)
 }
