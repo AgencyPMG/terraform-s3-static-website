@@ -11,5 +11,5 @@ output "cloudfront_url" {
 }
 
 output "cloudfront_arn" {
-  value = aws_cloudfront_distrubtion.this.arn
+  value = aws_cloudfront_distribution.this.arn
 }
