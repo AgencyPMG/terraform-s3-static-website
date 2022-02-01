@@ -9,3 +9,7 @@ output "bucket_arn" {
 output "cloudfront_url" {
   value = "https://${aws_route53_record.this.fqdn}"
 }
+
+output "cloudfront_arn" {
+  value = aws_cloudfront_distrubtion.this.arn
+}
