@@ -14,3 +14,8 @@ variable "additional_policies" {
   type    = list(string)
   default = []
 }
+
+variable "additional_bucket_policy_document" {
+  type    = string
+  default = ""
+}
