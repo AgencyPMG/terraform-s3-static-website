@@ -1,11 +1,31 @@
 resource "aws_s3_bucket" "this" {
   bucket = local.hostname
-  acl    = "public-read"
 
-  website {
-    index_document = "index.html"
-    error_document = "error.html"
-    routing_rules  = <<EOF
+  tags = {
+    Client = var.name
+  }
+}
+
+resource "aws_s3_bucket_acl" "this" {
+  bucket = aws_s3_bucket.this.id
+  acl    = "public-read"
+}
+
+resource "aws_s3_bucket_public_access_block" "this" {
+  bucket = aws_s3_bucket.this.id
+
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
+resource "aws_s3_bucket_website_configuration" "this" {
+  bucket = aws_s3_bucket.this.id
+
+  index_document = "index.html"
+  error_document = "error.html"
+  routing_rules  = <<EOF
 [
     {
         "Condition": {
@@ -20,11 +40,6 @@ resource "aws_s3_bucket" "this" {
     }
 ]
 EOF
-  }
-
-  tags = {
-    Client = var.name
-  }
 }
 
 data "aws_iam_policy_document" "bucket" {
