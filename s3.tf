@@ -23,23 +23,26 @@ resource "aws_s3_bucket_public_access_block" "this" {
 resource "aws_s3_bucket_website_configuration" "this" {
   bucket = aws_s3_bucket.this.id
 
-  index_document = "index.html"
-  error_document = "error.html"
-  routing_rules  = <<EOF
-[
-    {
-        "Condition": {
-            "HttpErrorCodeReturnedEquals": "404"
-        },
-        "Redirect": {
-            "HostName": "www.pmg.com",
-            "Protocol": "https",
-            "HttpRedirectCode": "303",
-            "ReplaceKeyWith": "/"
-        }
+  index_document {
+    key = " index.html"
+  }
+
+  error_document {
+    key = " error.html"
+  }
+
+  routing_rule {
+    condition {
+      http_error_code_returned_equals = 404
     }
-]
-EOF
+
+    redirect {
+      host_name          = "www.pmg.com"
+      protocol           = "https"
+      http_redirect_code = "303"
+      replace_key_with   = "/"
+    }
+  }
 }
 
 data "aws_iam_policy_document" "bucket" {
