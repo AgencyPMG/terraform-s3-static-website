@@ -4,7 +4,7 @@ resource "aws_cloudfront_distribution" "this" {
   default_root_object = "index.html"
 
   origin {
-    domain_name = aws_s3_bucket.this.website_endpoint
+    domain_name = aws_s3_bucket_website_configuration.this.website_endpoint
     origin_id   = "s3-bucket"
 
     custom_origin_config {
