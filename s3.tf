@@ -75,4 +75,8 @@ data "aws_iam_policy_document" "bucket" {
 resource "aws_s3_bucket_policy" "this" {
   bucket = aws_s3_bucket.this.bucket
   policy = data.aws_iam_policy_document.bucket.json
+
+  depends_on = [
+    aws_s3_bucket_acl.this,
+  ]
 }
