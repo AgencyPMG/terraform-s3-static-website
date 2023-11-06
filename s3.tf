@@ -69,7 +69,7 @@ data "aws_iam_policy_document" "bucket" {
     }
   }
 
-  source_json = var.additional_bucket_policy_document
+  source_policy_documents = [var.additional_bucket_policy_document]
 }
 
 resource "aws_s3_bucket_policy" "this" {
