@@ -22,7 +22,7 @@ resource "aws_cloudfront_distribution" "this" {
   logging_config {
     bucket          = "pmg-monitoring-${var.env}-alb-logs"
     include_cookies = false
-    prefix          = "cloudfront/${var.name}"
+    prefix          = "cloudfront/${var.app}/${var.env}"
   }
 
   price_class = "PriceClass_100"

@@ -1,3 +1,13 @@
+variable "app" {
+  type        = string
+  description = "The name of the application"
+}
+
+variable "env" {
+  type        = string
+  description = "The environment the application is deployed in"
+}
+
 variable "name" {
   type = string
 }
