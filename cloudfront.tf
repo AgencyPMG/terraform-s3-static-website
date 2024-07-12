@@ -19,6 +19,12 @@ resource "aws_cloudfront_distribution" "this" {
     local.hostname,
   ]
 
+  logging_config {
+    bucket          = "pmg-monitoring-${var.env}-alb-logs"
+    include_cookies = false
+    prefix          = "cloudfront/${var.name}"
+  }
+
   price_class = "PriceClass_100"
 
   default_cache_behavior {
