@@ -1,5 +1,5 @@
-data "aws_s3_bucket" "logging" {
-  bucket = "pmg-monitoring-${var.env}-alb-logs"
+data "aws_s3_bucket" "cloudfront-logs" {
+  bucket = "pmg-monitoring-${var.env}-cloudfront-logs"
 }
 
 resource "aws_cloudfront_distribution" "this" {
@@ -24,7 +24,7 @@ resource "aws_cloudfront_distribution" "this" {
   ]
 
   logging_config {
-    bucket          = data.aws_s3_bucket.logging.bucket_domain_name
+    bucket          = data.aws_s3_bucket.cloudfront-logs.bucket_domain_name
     include_cookies = false
     prefix          = "cloudfront/${var.app}/${var.env}"
   }
