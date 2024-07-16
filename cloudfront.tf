@@ -1,3 +1,7 @@
+data "aws_s3_bucket" "logging" {
+  bucket = "pmg-monitoring-${var.env}-alb-logs"
+}
+
 resource "aws_cloudfront_distribution" "this" {
   enabled             = true
   comment             = "${local.hostname} distribution"
@@ -20,7 +24,7 @@ resource "aws_cloudfront_distribution" "this" {
   ]
 
   logging_config {
-    bucket          = "pmg-monitoring-${var.env}-alb-logs"
+    bucket          = data.aws_s3_bucket.logging.bucket_domain_name
     include_cookies = false
     prefix          = "cloudfront/${var.app}/${var.env}"
   }
