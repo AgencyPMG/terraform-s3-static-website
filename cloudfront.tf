@@ -1,3 +1,7 @@
+data "aws_s3_bucket" "cloudfront-logs" {
+  bucket = "pmg-monitoring-${var.env}-cloudfront-logs"
+}
+
 resource "aws_cloudfront_distribution" "this" {
   enabled             = true
   comment             = "${local.hostname} distribution"
@@ -18,6 +22,12 @@ resource "aws_cloudfront_distribution" "this" {
   aliases = [
     local.hostname,
   ]
+
+  logging_config {
+    bucket          = data.aws_s3_bucket.cloudfront-logs.bucket_domain_name
+    include_cookies = false
+    prefix          = "cloudfront/${var.app}/${var.env}"
+  }
 
   price_class = "PriceClass_100"
 
