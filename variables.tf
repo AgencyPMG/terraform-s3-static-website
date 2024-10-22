@@ -29,3 +29,8 @@ variable "additional_bucket_policy_document" {
   type    = string
   default = ""
 }
+
+variable "create_iam_resources" {
+  type    = bool
+  default = true
+}

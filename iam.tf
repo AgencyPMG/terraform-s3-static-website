@@ -1,13 +1,16 @@
 resource "aws_iam_user" "this" {
+  count = var.create_iam_resources == true ? 1 : 0
   name = var.name
 }
 
 resource "aws_iam_access_key" "this" {
+  count = var.create_iam_resources == true ? 1 : 0
   user    = aws_iam_user.this.name
   pgp_key = file("${path.module}/tech-pgpkey-public.pem")
 }
 
 resource "aws_iam_user_policy" "this" {
+  count = var.create_iam_resources == true ? 1 : 0
   name   = "s3@${var.name}"
   user   = aws_iam_user.this.name
   policy = data.aws_iam_policy_document.s3-rw.json
