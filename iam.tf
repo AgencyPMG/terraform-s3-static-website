@@ -5,14 +5,14 @@ resource "aws_iam_user" "this" {
 
 resource "aws_iam_access_key" "this" {
   count = var.create_iam_resources == true ? 1 : 0
-  user    = aws_iam_user.this.name
+  user    = aws_iam_user.this[0].name
   pgp_key = file("${path.module}/tech-pgpkey-public.pem")
 }
 
 resource "aws_iam_user_policy" "this" {
   count = var.create_iam_resources == true ? 1 : 0
   name   = "s3@${var.name}"
-  user   = aws_iam_user.this.name
+  user   = aws_iam_user.this[0].name
   policy = data.aws_iam_policy_document.s3-rw.json
 }
 
@@ -45,6 +45,6 @@ data "aws_iam_policy_document" "s3-rw" {
 
 resource "aws_iam_user_policy_attachment" "additional" {
   count      = length(var.additional_policies)
-  user       = aws_iam_user.this.name
+  user       = aws_iam_user.this[0].name
   policy_arn = element(var.additional_policies, count.index)
 }
